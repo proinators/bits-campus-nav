@@ -8,6 +8,7 @@ import { Place, Places, siteConfig } from '@/config/site';
 import DefaultLayout from '@/layouts/default';
 import { title } from '@/components/primitives';
 import { useSearch } from '@/components/navbar';
+import { motion } from 'framer-motion';
 
 export default function IndexPage() {
   const [selectedPlace, setSelectedPlace] = useState<Place|null>(null);
@@ -92,23 +93,28 @@ export default function IndexPage() {
                   <ScrollShadow orientation="horizontal" className="w-full">
                     <div className="flex gap-4 pb-4 overflow-x-auto">
                       {places.map((place) => (
-                        <Card 
+                        <motion.div
                           key={place.name}
-                          isPressable
-                          className="min-w-[300px]"
-                          onClick={() => handleCardClick(place)}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
                         >
-                          <CardHeader className="p-0">
-                            <img
-                              src="/assets/placeholder.jpg"
-                              alt={place.name}
-                              className="w-full h-[200px] object-cover"
-                            />
-                          </CardHeader>
-                          <CardBody>
-                            <h3 className="text-lg font-semibold">{place.name}</h3>
-                          </CardBody>
-                        </Card>
+                          <Card 
+                            isPressable
+                            className="min-w-[300px]"
+                            onClick={() => handleCardClick(place)}
+                          >
+                            <CardHeader className="p-0">
+                              <img
+                                src={place.image}
+                                alt={place.name}
+                                className="w-full h-[200px] object-cover"
+                              />
+                            </CardHeader>
+                            <CardBody>
+                              <h3 className="text-lg font-semibold">{place.name}</h3>
+                            </CardBody>
+                          </Card>
+                        </motion.div>
                       ))}
                     </div>
                   </ScrollShadow>
@@ -117,23 +123,28 @@ export default function IndexPage() {
                 {/* Desktop: Grid */}
                 <div className="hidden md:grid grid-cols-3 lg:grid-cols-4 gap-6 mt-0 md:mt-10">
                   {places.map((place) => (
-                    <Card 
+                    <motion.div
                       key={place.name}
-                      isPressable
-                      className="w-full"
-                      onClick={() => handleCardClick(place)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      <CardHeader className="p-0">
-                        <img
-                          src="/assets/placeholder.jpg"
-                          alt={place.name}
-                          className="w-full h-[200px] object-cover"
-                        />
-                      </CardHeader>
-                      <CardBody>
-                        <h3 className="text-lg font-semibold">{place.name}</h3>
-                      </CardBody>
-                    </Card>
+                      <Card 
+                        isPressable
+                        className="w-full"
+                        onClick={() => handleCardClick(place)}
+                      >
+                        <CardHeader className="p-0">
+                          <img
+                            src={place.image}
+                            alt={place.name}
+                            className="w-full h-[200px] object-cover"
+                          />
+                        </CardHeader>
+                        <CardBody>
+                          <h3 className="text-lg font-semibold">{place.name}</h3>
+                        </CardBody>
+                      </Card>
+                    </motion.div>
                   ))}
                 </div>
               </section>
@@ -158,6 +169,16 @@ export default function IndexPage() {
               </ModalHeader>
               <ModalBody>
                 <p>{selectedPlace.description}</p>
+                <div className="flex flex-wrap gap-4 mt-4">
+                  {selectedPlace.images.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`${selectedPlace.name} image ${index + 1}`}
+                      className="w-full md:w-1/2 lg:w-1/3 object-cover"
+                    />
+                  ))}
+                </div>
               </ModalBody>
               <ModalFooter className="flex justify-end">
                 <Button 
