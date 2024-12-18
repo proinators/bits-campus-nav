@@ -57,6 +57,7 @@ export const Navbar = () => {
     e.preventDefault();
     e.stopPropagation();
     setIsSearchOpen(false);
+    setSearchQuery("");
   };
 
   const searchInput = (
@@ -75,6 +76,7 @@ export const Navbar = () => {
       value={searchQuery}
       onChange={(e) => setSearchQuery(e.target.value)}
       isClearable={true}
+      onClear={() => setSearchQuery("")}
     />
   );
 
